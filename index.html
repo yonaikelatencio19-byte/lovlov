@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feliz primer mes, Ari</title>
+  <style>
+    :root{
+      --sky-top: #f8d7a9;
+      --sky-mid: #f3b88f;
+      --sky-bottom: #f7e5c5;
+      --sun: #ffd76b;
+      --sun-glow: rgba(255, 199, 94, 0.55);
+      --hill1: #7aa06a;
+      --hill2: #5f8d59;
+      --hill3: #446a47;
+      --tree: #5c3d2d;
+      --leaf-1: #e77a50;
+      --leaf-2: #db5d3d;
+      --leaf-3: #f2be6d;
+      --leaf-4: #c86f3e;
+      --text: #1a1410;
+      --shadow: rgba(80, 42, 32, 0.3);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(to bottom, var(--sky-top), var(--sky-mid), var(--sky-bottom));
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 680px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 12%, rgba(255,255,255,0.28), transparent 20%),
+        linear-gradient(to bottom, #f9d7a7 0%, #f3be8c 46%, #f7e7ca 100%);
+    }
+
+    .sun {
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      top: 50px;
+      right: 12%;
+      background: radial-gradient(circle, #fff7d2 0%, var(--sun) 28%, #fbbf5a 52%, rgba(255,190,106,0.30) 75%, transparent 100%);
+      box-shadow: 0 0 80px var(--sun-glow);
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .cloud {
+      position: absolute;
+      background: rgba(255,255,255,0.45);
+      border-radius: 999px;
+      filter: blur(1px);
+      animation: drift 20s ease-in-out infinite;
+    }
+
+    .cloud::before, .cloud::after {
+      content: "";
+      position: absolute;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+    }
+
+    .cloud.one {
+      width: 170px;
+      height: 42px;
+      left: 10%;
+      top: 110px;
+    }
+
+    .cloud.one::before {
+      width: 56px;
+      height: 56px;
+      left: 20px;
+      top: -22px;
+    }
+
+    .cloud.one::after {
+      width: 72px;
+      height: 72px;
+      right: 20px;
+      top: -28px;
+    }
+
+    .cloud.two {
+      width: 185px;
+      height: 46px;
+      right: 22%;
+      top: 150px;
+      animation-delay: -8s;
+    }
+
+    .cloud.two::before {
+      width: 62px;
+      height: 62px;
+      left: 18px;
+      top: -22px;
+    }
+
+    .cloud.two::after {
+      width: 78px;
+      height: 78px;
+      right: 24px;
+      top: -28px;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateX(0px); }
+      50% { transform: translateX(30px); }
+    }
+
+    .message {
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      font-size: clamp(26px, 4vw, 52px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      text-shadow: 0 2px 6px rgba(255,255,255,0.4);
+      text-align: center;
+      width: 90%;
+    }
+
+    .signature {
+      position: absolute;
+      right: 26px;
+      bottom: 18px;
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: #1a1410;
+      text-shadow: 0 1px 4px rgba(255,255,255,0.3);
+      z-index: 30;
+      font-weight: 600;
+    }
+
+    .hill {
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .hill.back {
+      bottom: 180px;
+      height: 210px;
+      background: linear-gradient(to top, var(--hill1), #96be74);
+      z-index: 2;
+    }
+
+    .hill.mid {
+      bottom: 110px;
+      height: 180px;
+      background: linear-gradient(to top, var(--hill2), #7ca96e);
+      z-index: 4;
+    }
+
+    .hill.front {
+      bottom: -10px;
+      height: 190px;
+      background: linear-gradient(to top, var(--hill3), #678c5e);
+      z-index: 8;
+    }
+
+    .tree {
+      position: absolute;
+      bottom: 120px;
+      width: 170px;
+      height: 250px;
+      z-index: 10;
+    }
+
+    .tree.left {
+      left: 7%;
+    }
+
+    .tree.right {
+      right: 8%;
+    }
+
+    .trunk {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 24px;
+      height: 160px;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, #6d4334, #3c2922);
+      border-radius: 10px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,0.05);
+    }
+
+    .branch {
+      position: absolute;
+      width: 90px;
+      height: 16px;
+      background: linear-gradient(to right, #6b4032, #3a2a26);
+      border-radius: 999px;
+      bottom: 88px;
+      left: 50%;
+      transform-origin: left center;
+    }
+
+    .tree.left .branch {
+      transform: translateX(-10px) rotate(-28deg);
+    }
+
+    .tree.left .branch.two {
+      transform: translateX(-6px) rotate(30deg);
+      bottom: 120px;
+      left: 40%;
+    }
+
+    .tree.right .branch {
+      transform: translateX(-60px) rotate(25deg);
+      left: 20%;
+    }
+
+    .tree.right .branch.two {
+      transform: translateX(-40px) rotate(-28deg);
+      bottom: 118px;
+      left: 52%;
+    }
+
+    .canopy {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 160px;
+      height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(242,184,93,0.95), rgba(190,94,58,0.9) 40%, rgba(110,62,39,0.9) 100%);
+      filter: drop-shadow(0 6px 8px rgba(64,36,18,0.18));
+    }
+
+    .tree.left .canopy {
+      bottom: 70px;
+      left: 52%;
+    }
+
+    .tree.right .canopy {
+      bottom: 72px;
+      left: 48%;
+    }
+
+    .canopy::before, .canopy::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(240,160,80,0.9), rgba(161,95,58,0.75));
+    }
+
+    .canopy::before {
+      width: 80px;
+      height: 80px;
+      left: -18px;
+      top: 26px;
+    }
+
+    .canopy::after {
+      width: 74px;
+      height: 74px;
+      right: -16px;
+      top: 30px;
+    }
+
+    .ground-shadow {
+      position: absolute;
+      width: 280px;
+      height: 38px;
+      background: rgba(86, 48, 35, 0.18);
+      border-radius: 50%;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      filter: blur(7px);
+      z-index: 7;
+    }
+
+    #leaves {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .leaf {
+      position: absolute;
+      top: -10%;
+      width: var(--size);
+      height: calc(var(--size) * 1.2);
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      border-radius: 60% 0 60% 0;
+      box-shadow: inset 0 0 4px rgba(255,255,255,0.3);
+      transform: rotate(0deg);
+      animation: fall linear infinite;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.95; }
+      100% {
+        transform: translate3d(var(--drift), 115vh, 0) rotate(260deg);
+        opacity: 0;
+      }
+    }
+
+    .birds {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 25;
+      pointer-events: none;
+    }
+
+    .bird {
+      position: absolute;
+      width: 28px;
+      height: 14px;
+      animation: fly linear infinite;
+    }
+
+    .bird::before, .bird::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 10px;
+      background: #2a1810;
+      border-radius: 50% 50% 40% 40%;
+      top: 2px;
+    }
+
+    .bird::before {
+      left: 0;
+      animation: wingFlap 0.3s ease-in-out infinite;
+    }
+
+    .bird::after {
+      right: 0;
+      animation: wingFlap 0.3s ease-in-out infinite reverse;
+    }
+
+    @keyframes wingFlap {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.5); }
+    }
+
+    @keyframes fly {
+      0% {
+        transform: translateX(var(--startX)) translateY(var(--startY));
+        opacity: 0;
+      }
+      5% { opacity: 1; }
+      95% { opacity: 1; }
+      100% {
+        transform: translateX(var(--endX)) translateY(var(--endY));
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .message {
+        top: 25px;
+        line-height: 1.15;
+      }
+
+      .sun {
+        width: 130px;
+        height: 130px;
+        right: 8%;
+        top: 36px;
+      }
+
+      .tree {
+        transform: scale(0.8);
+      }
+
+      .tree.left { left: 2%; }
+      .tree.right { right: 2%; }
+
+      .signature {
+        right: 18px;
+        bottom: 14px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="sun"></div>
+
+    <div class="cloud one"></div>
+    <div class="cloud two"></div>
+
+    <div class="message">Feliz primer mes, Ari</div>
+
+    <div class="hill back"></div>
+    <div class="hill mid"></div>
+
+    <div class="ground-shadow"></div>
+
+    <div class="tree left">
+      <div class="canopy"></div>
+      <div class="branch"></div>
+      <div class="branch two"></div>
+      <div class="trunk"></div>
+    </div>
+
+    <div class="tree right">
+      <div class="canopy"></div>
+      <div class="branch"></div>
+      <div class="branch two"></div>
+      <div class="trunk"></div>
+    </div>
+
+    <div class="hill front"></div>
+
+    <div id="leaves"></div>
+
+    <div class="birds"></div>
+
+    <div class="signature">Ari x Archer</div>
+  </div>
+
+  <script>
+    // Crear hojas
+    const leafContainer = document.getElementById("leaves");
+
+    for (let i = 0; i < 28; i++) {
+      const leaf = document.createElement("span");
+      leaf.className = "leaf";
+
+      const palette = [
+        ["#ef8e5d", "#d55d3c"],
+        ["#f0c26d", "#d8743f"],
+        ["#de6d4c", "#b9543b"],
+        ["#cf8739", "#a72f2b"],
+        ["#ecac52", "#cf5a36"]
+      ];
+
+      const [c1, c2] = palette[Math.floor(Math.random() * palette.length)];
+
+      const size = (14 + Math.random() * 18).toFixed(2) + "px";
+
+      leaf.style.setProperty("--size", size);
+      leaf.style.setProperty("--c1", c1);
+      leaf.style.setProperty("--c2", c2);
+      leaf.style.left = (Math.random() * 100).toFixed(2) + "%";
+      leaf.style.animationDelay = (Math.random() * 3).toFixed(2) + "s";
+      leaf.style.animationDuration = (7 + Math.random() * 8).toFixed(2) + "s";
+      leaf.style.setProperty("--drift", ((-60 + Math.random() * 120).toFixed(2)) + "px");
+
+      leafContainer.appendChild(leaf);
+    }
+
+    // Crear pájaros
+    const birdContainer = document.querySelector(".birds");
+
+    for (let i = 0; i < 8; i++) {
+      const bird = document.createElement("div");
+      bird.className = "bird";
+
+      const startX = Math.random() * 100 - 50;
+      const startY = 40 + Math.random() * 120;
+      const endX = startX + (150 + Math.random() * 200);
+      const endY = startY - 30 + Math.random() * 40;
+      const duration = 8 + Math.random() * 6;
+
+      bird.style.setProperty("--startX", startX + "px");
+      bird.style.setProperty("--startY", startY + "px");
+      bird.style.setProperty("--endX", endX + "px");
+      bird.style.setProperty("--endY", endY + "px");
+      bird.style.animationDuration = duration + "s";
+      bird.style.animationDelay = (Math.random() * 4) + "s";
+
+      birdContainer.appendChild(bird);
+    }
+  </script>
+</body>
+</html>
